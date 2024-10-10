@@ -6,12 +6,12 @@ WHISPER_PATH = '~/whisper.cpp/main'
 WHISPER_MODEL_PATH = '~/whisper.cpp/models/ggml-large-v3.bin'
 
 
-def transcribe_audio(lang, temp_file_name, srt_writer):
+def transcribe_audio(lang, wav_path, srt_writer):
   executable = os.path.expanduser(WHISPER_PATH)
   model_path = os.path.expanduser(WHISPER_MODEL_PATH)
-  whisper_argv = [executable, "-l", lang, "-m", model_path, "-f", temp_file_name]
-  with Popen(whisper_argv, stdout=PIPE, stderr=DEVNULL, text=True) as whisper_proc:
-    for line in whisper_proc.stdout:
+  whisper_argv = [executable, "-l", lang, "-m", model_path, "-f", wav_path]
+  with Popen(whisper_argv, stdout=PIPE, stderr=DEVNULL, text=True) as whisper_process:
+    for line in whisper_process.stdout:
       sys.stdout.write(line)
       srt_writer.append(line)
 
